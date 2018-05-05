@@ -36,6 +36,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private List<Alert> polygonList;
+    List<Polygon> polygon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,21 +63,10 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(-18.142, 178.431), 2));
         // Polylines are useful for marking paths and routes on the map.
-        mMap.addPolyline(new PolylineOptions().geodesic(true)
+        /*mMap.addPolyline(new PolylineOptions().geodesic(true)
                         .add(new LatLng(17.1319086774805, 79.216953038765))
-                        .add(new LatLng(16.6120656348321, 79.2521746471596))
-                        .add(new LatLng(16.685249934407, 79.6126464318652))
-                        .add(new LatLng(17.1776705218865, 79.4423545773502))
-                        /*.add(new LatLng(17.0523483194474, 79.5306413275148))*/
-                        /*.add(new LatLng(17.0632570218038, 79.5197326251584))*/
-                        /*.add(new LatLng(17.0656033790209, 79.4997326251584))*/
-                        /*.add(new LatLng(17.0523483194474, 79.4842327909574))*/
-                        /*.add(new LatLng(17.0323483194474, 79.4954406354342))*/
-                        .add(new LatLng(-33.866, 151.195))  // Sydney
-                        .add(new LatLng(-18.142, 178.431))  // Fiji
-               /* .add(new LatLng(21.291, -157.821))  // Hawaii
-                .add(new LatLng(37.423, -122.091))  // Mountain View*/
-        );
+        ));*/
+
     }
 
     private void GetData() {
@@ -126,11 +116,16 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                         List<Polygon> data = new ArrayList<>();
                         for (int i = 0; i < polygonList.size(); i++) {
                             Alert pp = polygonList.get(i);
-                            List<Polygon> polygon = pp.getPolygon();
+                            polygon = pp.getPolygon();
                             polygon.get(i).getLongitude();
                             polygon.get(i).getLat();
-                            //data.add(polygon);
+                            Log.d("pol_string", polygon.toString());
                             Log.d("polygon.getLat()", String.valueOf(polygon.get(i).getLat()));
+
+                            mMap.addPolyline(new PolylineOptions().geodesic(true)
+                                    .add(new LatLng(Double.parseDouble(polygon.get(i).getLat()),
+                                            Double.parseDouble(polygon.get(i).getLongitude()))
+                                    ));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
